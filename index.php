@@ -4,7 +4,7 @@ $contato = new Contato();
 ?>
 
 <h1>Contatos</h1><br/>
-<a href="">[ ADICIONAR ]</a><br/><br/>
+<a href="adicionar.php">[ ADICIONAR ]</a><br/><br/>
 
 <table border="1" width="500">
     <tr>
