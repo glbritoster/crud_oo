@@ -21,22 +21,21 @@ class Contato {
 		}
 	}
 
-	public function getNome($email) {
-		$sql = "SELECT nome FROM contatos WHERE email = :email";
+	public function getInfo($id){
+            $sql = "SELECT * FROM contatos WHERE id = :id";
 		$sql = $this->pdo->prepare($sql);
-		$sql->bindValue(':email', $email);
+                $sql->bindValue(':id', $id);
 		$sql->execute();
 
 		if($sql->rowCount() > 0) {
-			$info = $sql->fetch();
-
-			return $info['nome'];
+			return $sql->fetch();
 		} else {
-			return '';
+			return array();
 		}
-	}
+            
+        }
 
-	public function getAll() {
+        public function getAll() {
 		$sql = "SELECT * FROM contatos";
 		$sql = $this->pdo->query($sql);
 
@@ -47,21 +46,30 @@ class Contato {
 		}
 	}
 
-	public function editar($nome, $email) {
-		if($this->existeEmail($email)) {
-			$sql = "UPDATE contatos SET nome = :nome WHERE email = :email";
-			$sql = $this->pdo->prepare($sql);
-			$sql->bindValue(':nome', $nome);
-			$sql->bindValue(':email', $email);
-			$sql->execute();
-
-			return true;
-		} else {
-			return false;
-		}
+	public function editar($nome, $email, $id) {
+	  if($this->existeEmail($email) == false){
+                $sql = "UPDATE contatos SET nome = :nome, email = :email WHERE id = :id";
+                $sql = $this->pdo->prepare($sql);
+                $sql->bindValue(':nome', $nome);
+                $sql->bindValue(':email', $email);
+                $sql->bindValue(':id', $id);
+                $sql->execute();
+                return true;
+          }else{
+              return false;
+          }
+		
 	}
 
-	public function excluir($id) {
+	public function excluirPeloEmail($id) {
+		
+			$sql = "DELETE FROM contatos WHERE emial= :email";
+			$sql = $this->pdo->prepare($sql);
+			$sql->bindValue(':email', $email);
+			$sql->execute();
+		
+	}
+        public function excluirPeloId($id) {
 		
 			$sql = "DELETE FROM contatos WHERE id= :id";
 			$sql = $this->pdo->prepare($sql);
